@@ -7,35 +7,40 @@ WIDTH = size_w * 64
 HEIGHT = size_h * 48
 
 bunny = Actor("bunny", (320,200))
-platform = Actor("platform")
+key = Actor("key") # imagen3
+cavern = Actor("cavern_bg") # imagen2
+platform = Actor("platform") # imagen1
+cat = Actor("cat")
 button_play = Actor("button", (320, 200))
 button_skins = Actor("button", (320, 250))
 button_extra = Actor("button", (320, 150))
 mode = "menu"
 
 my_map = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1 ,0, 0, 0, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [2, 0, 1, 0, 0, 0, 0, 0, 0, 2],
+    [2, 0, 0, 0, 0, 0, 0, 0, 1, 2],
+    [2, 0, 1, 0, 0, 0, 1, 1, 1, 2],
+    [2, 1, 1, 1, 0, 0, 0, 0, 0, 2],
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+    [2, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
     ]
 def map_draw():
     for i in range(len(my_map)):
         for j in range(len(my_map[0])):
-            if my_map[i][j]==0:
-                cell.left = cell.width*j
-                cell.top = cell.height*i
-                cell.draw()
             if my_map[i][j]==1:
-                cell1.left = cell.width*j
-                cell1.top = cell.height*i
-                cell1.draw()
+                platform.left = platform.width*j
+                platform.top = platform.height*i
+                platform.draw()
+        for j in range(len(my_map[0])):
+            if my_map[i][j]==2:
+                cavern.left = cavern.width*j
+                cavern.top = cavern.height*i
+                cavern.draw()
+
 
 
 def draw():
@@ -51,9 +56,9 @@ def draw():
     elif mode == "game":
         screen.clear()
         screen.blit("bg", (0,0))
-    
+        map_draw()
 
-        platform.draw()
+        
     elif mode == "skins":
         screen.fill((20,35,20))
 def on_mouse_down(pos):
