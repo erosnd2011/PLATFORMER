@@ -6,11 +6,11 @@ size_h = 10
 WIDTH = size_w * 64
 HEIGHT = size_h * 48
 
-bunny = Actor("bunny", (320,200))
+bunny = Actor("bunny", (320,300))
 key = Actor("key") # imagen3
 cavern = Actor("cavern_bg") # imagen2
 platform = Actor("platform") # imagen1
-cat = Actor("cat")
+cat = Actor("cat", (100,100))
 button_play = Actor("button", (320, 200))
 button_skins = Actor("button", (320, 250))
 button_extra = Actor("button", (320, 150))
@@ -20,12 +20,15 @@ gravity = 1
 jump_strengh = -15
 bunny.vy = 0
 
+cat.vx = 3
+cat.vy = 0
+
 
 my_map = [
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-    [2, 0, 1, 0, 0, 0, 0, 0, 0, 2],
+    [2, 0, 1, 1, 1, 1, 1, 1, 0, 2],
     [2, 0, 0, 0, 0, 0, 0, 0, 1, 2],
     [2, 0, 1, 0, 0, 0, 1, 1, 1, 2],
     [2, 1, 1, 1, 0, 0, 0, 0, 0, 2],
@@ -62,6 +65,7 @@ def draw():
         screen.clear()
         screen.blit("bg", (0,0))
         map_draw()
+        cat.draw()
         bunny.draw()
 
         
@@ -97,7 +101,11 @@ def update():
             if bunny_rect.colliderect(p_rect) and bunny.vy >= 0:
                 bunny.y = p_rect.top - bunny.height/2
                 bunny.vy = 0
-                
+        if bunny.x > cat.x:
+            cat.x += cat.vx
+        elif bunny.x < cat.x:
+            cat.x -= cat.vx
+
 def on_key_down(key):
     if mode =="game":
         if key == keys.SPACE and bunny.vy == 0:
