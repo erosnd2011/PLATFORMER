@@ -57,6 +57,7 @@ def draw():
         screen.clear()
         screen.blit("bg", (0,0))
         map_draw()
+        bunny.draw()
 
         
     elif mode == "skins":
@@ -68,4 +69,13 @@ def on_mouse_down(pos):
             mode = "game"
         elif button_skins.collidepoint(pos):
             mode = "skins"
+
+def on_key_down(key):
+    old_x = bunny.x
+    old_y = bunny.y
+    if keyboard.right:
+        bunny.x += 5
+    if keyboard.left:
+        bunny.x -= 5
+          
 pgzrun.go()
