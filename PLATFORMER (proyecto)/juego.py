@@ -16,6 +16,11 @@ button_skins = Actor("button", (320, 250))
 button_extra = Actor("button", (320, 150))
 mode = "menu"
 
+gravity = 1
+jump_strengh = -15
+bunny.vy = 0
+
+
 my_map = [
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
@@ -70,12 +75,34 @@ def on_mouse_down(pos):
         elif button_skins.collidepoint(pos):
             mode = "skins"
 
+def update():
+    if mode == "game":
+        if keyboard.right:
+            bunny.x += 5
+        if keyboard.left:
+            bunny.x -= 5
+        bunny.vy += gravity
+        bunny.y += bunny.vy
+        bunny_rect = Rect((bunny.x - bunny.width/2, bunny.y - bunny.height/2), (bunny.width, bunny.height))
+
+        # Build platform rects from map
+        platform_rects = []
+        for i in range(len(my_map)):
+            for j in range(len(my_map[0])):
+                if my_map[i][j] == 1:
+                    plat_rect = Rect((j * platform.width, i * platform.height), (platform.width, platform.height))
+                    platform_rects.append(plat_rect)
+
+        for p_rect in platform_rects:
+            if bunny_rect.colliderect(p_rect) and bunny.vy >= 0:
+                bunny.y = p_rect.top - bunny.height/2
+                bunny.vy = 0
+                
 def on_key_down(key):
-    old_x = bunny.x
-    old_y = bunny.y
-    if keyboard.right:
-        bunny.x += 5
-    if keyboard.left:
-        bunny.x -= 5
-          
+    if mode =="game":
+        if key == keys.SPACE and bunny.vy == 0:
+            bunny.vy = jump_strengh
+    
+
+       
 pgzrun.go()
